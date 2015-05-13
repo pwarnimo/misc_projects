@@ -12,11 +12,18 @@ class Calculator : public QMainWindow, public Ui::MainWindow  {
 		~Calculator();
 	
 	private slots:
-		void calculate();
 		void addToVal();
+		void addition();
+		void substract();
+		void multiply();
+		void calcResult();
+		void reset();
 
 	private:
-		std::string val;
+		int tmpValue;
+		int result;
+		char currentop;
+		bool first;
 };
 
 #endif

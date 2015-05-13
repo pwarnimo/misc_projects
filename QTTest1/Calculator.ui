@@ -7,11 +7,21 @@
     <x>0</x>
     <y>0</y>
     <width>222</width>
-    <height>274</height>
+    <height>252</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>QT Calc</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="calulator.qrc">
+    <normaloff>:/img/srvmon.png</normaloff>:/img/srvmon.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QPushButton" name="btn1">
@@ -165,12 +175,12 @@
      <rect>
       <x>60</x>
       <y>190</y>
-      <width>91</width>
+      <width>41</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>Calc</string>
+     <string>=</string>
     </property>
    </widget>
    <widget class="QPushButton" name="btnPlus">
@@ -225,6 +235,19 @@
      <string>/</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="btnClear">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>190</y>
+      <width>41</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>CLR</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -238,6 +261,8 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="calulator.qrc"/>
+ </resources>
  <connections/>
 </ui>

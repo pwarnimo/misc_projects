@@ -43,6 +43,7 @@ public:
     QPushButton *btnMinus;
     QPushButton *btnMulti;
     QPushButton *btnDiv;
+    QPushButton *btnClear;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -50,7 +51,15 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(222, 274);
+        MainWindow->resize(222, 252);
+        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(MainWindow->sizePolicy().hasHeightForWidth());
+        MainWindow->setSizePolicy(sizePolicy);
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/img/srvmon.png"), QSize(), QIcon::Normal, QIcon::Off);
+        MainWindow->setWindowIcon(icon);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         btn1 = new QPushButton(centralwidget);
@@ -90,7 +99,7 @@ public:
         btn0->setGeometry(QRect(10, 190, 41, 41));
         btnCalculate = new QPushButton(centralwidget);
         btnCalculate->setObjectName(QString::fromUtf8("btnCalculate"));
-        btnCalculate->setGeometry(QRect(60, 190, 91, 41));
+        btnCalculate->setGeometry(QRect(60, 190, 41, 41));
         btnPlus = new QPushButton(centralwidget);
         btnPlus->setObjectName(QString::fromUtf8("btnPlus"));
         btnPlus->setGeometry(QRect(170, 40, 41, 41));
@@ -103,6 +112,9 @@ public:
         btnDiv = new QPushButton(centralwidget);
         btnDiv->setObjectName(QString::fromUtf8("btnDiv"));
         btnDiv->setGeometry(QRect(170, 190, 41, 41));
+        btnClear = new QPushButton(centralwidget);
+        btnClear->setObjectName(QString::fromUtf8("btnClear"));
+        btnClear->setGeometry(QRect(110, 190, 41, 41));
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
@@ -119,7 +131,7 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0, QApplication::UnicodeUTF8));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "QT Calc", 0, QApplication::UnicodeUTF8));
         btn1->setText(QApplication::translate("MainWindow", "1", 0, QApplication::UnicodeUTF8));
         btn4->setText(QApplication::translate("MainWindow", "4", 0, QApplication::UnicodeUTF8));
         btn7->setText(QApplication::translate("MainWindow", "7", 0, QApplication::UnicodeUTF8));
@@ -130,11 +142,12 @@ public:
         btn6->setText(QApplication::translate("MainWindow", "6", 0, QApplication::UnicodeUTF8));
         btn9->setText(QApplication::translate("MainWindow", "9", 0, QApplication::UnicodeUTF8));
         btn0->setText(QApplication::translate("MainWindow", "0", 0, QApplication::UnicodeUTF8));
-        btnCalculate->setText(QApplication::translate("MainWindow", "Calc", 0, QApplication::UnicodeUTF8));
+        btnCalculate->setText(QApplication::translate("MainWindow", "=", 0, QApplication::UnicodeUTF8));
         btnPlus->setText(QApplication::translate("MainWindow", "+", 0, QApplication::UnicodeUTF8));
         btnMinus->setText(QApplication::translate("MainWindow", "-", 0, QApplication::UnicodeUTF8));
         btnMulti->setText(QApplication::translate("MainWindow", "*", 0, QApplication::UnicodeUTF8));
         btnDiv->setText(QApplication::translate("MainWindow", "/", 0, QApplication::UnicodeUTF8));
+        btnClear->setText(QApplication::translate("MainWindow", "CLR", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

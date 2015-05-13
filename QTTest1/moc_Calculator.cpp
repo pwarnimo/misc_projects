@@ -22,7 +22,7 @@ static const uint qt_meta_data_Calculator[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-       2,   14, // methods
+       6,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -31,13 +31,19 @@ static const uint qt_meta_data_Calculator[] = {
 
  // slots: signature, parameters, type, tag, flags
       12,   11,   11,   11, 0x08,
-      24,   11,   11,   11, 0x08,
+      23,   11,   11,   11, 0x08,
+      34,   11,   11,   11, 0x08,
+      46,   11,   11,   11, 0x08,
+      57,   11,   11,   11, 0x08,
+      70,   11,   11,   11, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_Calculator[] = {
-    "Calculator\0\0calculate()\0addToVal()\0"
+    "Calculator\0\0addToVal()\0addition()\0"
+    "substract()\0multiply()\0calcResult()\0"
+    "reset()\0"
 };
 
 void Calculator::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -46,8 +52,12 @@ void Calculator::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         Q_ASSERT(staticMetaObject.cast(_o));
         Calculator *_t = static_cast<Calculator *>(_o);
         switch (_id) {
-        case 0: _t->calculate(); break;
-        case 1: _t->addToVal(); break;
+        case 0: _t->addToVal(); break;
+        case 1: _t->addition(); break;
+        case 2: _t->substract(); break;
+        case 3: _t->multiply(); break;
+        case 4: _t->calcResult(); break;
+        case 5: _t->reset(); break;
         default: ;
         }
     }
@@ -88,9 +98,9 @@ int Calculator::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 2)
+        if (_id < 6)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 2;
+        _id -= 6;
     }
     return _id;
 }
