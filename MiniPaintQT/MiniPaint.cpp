@@ -1,5 +1,6 @@
 #include "MiniPaint.h"
 #include <QMessageBox>
+#include <QPainter>
 
 MiniPaint::MiniPaint(QMainWindow *parent) : QMainWindow(parent) {
 	setupUi(this);
@@ -11,7 +12,5 @@ MiniPaint::~MiniPaint() {
 }
 
 void MiniPaint::createNewDrawing() {
-	QMessageBox msgBox;
-	msgBox.setText("This is a test");
-	msgBox.exec();
+	QPainter painter(this);
 }
