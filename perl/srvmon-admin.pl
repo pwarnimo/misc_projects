@@ -1,4 +1,32 @@
 #!/usr/bin/perl -w
+#
+# Script      : srvmon-admin.pl
+# Author(s)   : Pol Warnimont
+# Create date : 2015-06-11
+# Version     : 0.1
+#
+# Description : A simple administration tool for SRVMON
+#
+# Changelog
+# ---------
+#  2015-06-11 : Created script.
+#
+# License information
+# -------------------
+#  Copyright (C) 2015  Pol Warnimont
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU Affero General Public License as
+#  published by the Free Software Foundation, either version 3 of the
+#  License, or (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU Affero General Public License for more details.
+#
+#  You should have received a copy of the GNU Affero General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 use strict;
 use warnings;
@@ -10,12 +38,14 @@ use DBI;
 my ($dbuser, $dbpass, $dbname) = ("sqlusr", "q1w2e3!", "srvmon");
 my $dbh = DBI->connect("DBI:mysql:database=" . $dbname, $dbuser, $dbpass);
 
+# Create curses main window
 my $cui = new Curses::UI(
 	-clear_on_exit => 1,
 	-color_support => 1,
 	-debug => 0
 );
 
+# Context menu definition
 my @menu = (
 	{
 		-label => "File",
@@ -41,6 +71,7 @@ my @menu = (
 	}
 );
 
+# Add menu to curses window
 my $menu = $cui->add(
 	"menu",
 	"Menubar",
@@ -49,6 +80,7 @@ my $menu = $cui->add(
 	-menu => \@menu
 );
 
+# Create main content viewport
 my $screen = $cui->add(
 	"screen",
 	"Window",
@@ -57,6 +89,7 @@ my $screen = $cui->add(
 	-ipad => 0
 );
 
+# Create status bar
 $screen->add(
 	"lblHelp",
 	"Label",
@@ -69,6 +102,7 @@ $screen->add(
 	-text => " F10 = Menu   F11 = Help   F12 = Quit"
 );
 
+# Exit dialog
 sub dialogExit() {
 	my $return = $cui->dialog(
 		-title => "Attention!",
@@ -136,6 +170,17 @@ $w{1}->add(
 		}
 	]
 );
+
+# W2 : SERVERS OVERVIEW
+
+$w{2} = $cui->add(
+	2,
+	"Window",
+	-title => "Servers Overview",
+	%args
+);
+
+$w{2}->add();
 
 # WINDOW DEFS END
 
