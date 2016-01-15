@@ -1,7 +1,9 @@
+#include "skeleton.h"
 #include <QMenu>
 #include <QMenuBar>
 #include <QStatusBar>
 #include <QTextEdit>
+#include <QToolBar>
 
 Skeleton::Skeleton(QWidget *parent) : QMainWindow(parent) {
 	QPixmap newpic("new.png");
@@ -24,5 +26,9 @@ Skeleton::Skeleton(QWidget *parent) : QMainWindow(parent) {
 	QAction *quit2 = toolbar->addAction(QIcon(quitpic), "Quit Application");
 	connect(quit2, &QAction::triggered, qApp, &QApplication::quit);
 
+	QTextEdit *edit = new QTextEdit(this);
 
+	setCentralWidget(edit);
+
+	statusBar()->showMessage("Ready");
 }
