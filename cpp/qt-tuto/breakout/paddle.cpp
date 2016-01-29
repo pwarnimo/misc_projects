@@ -10,7 +10,7 @@ Paddle::Paddle() {
 }
 
 Paddle::~Paddle() {
-	std::cout << ("Paddle deleted") << std::end;
+	std::cout << ("Paddle deleted") << std::endl;
 }
 
 void Paddle::setDx(int x) {
