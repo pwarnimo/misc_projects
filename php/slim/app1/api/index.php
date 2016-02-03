@@ -1,89 +1,145 @@
 <?php
+require "db.php";
 require "vendor/autoload.php";
 
-$c = new \Slim\Container();
+$app = new \Slim\Slim();
 
-$c["notFoundHandler"] = function ($c) {
-	return function ($request, $response) use ($c) {
-		return $c["response"]
-			->withStatus(404)
-			->withHeader("Content-Type", "text/json")
-			->write(json_encode(
+$app->get("/servers/:name/getid", function ($name) {
+	$sql = "SELECT idServer FROM tblServer WHERE dtHostname = :name";
+
+	try {
+		$db = getDB();
+		$stmt = $db->prepare($sql);
+		$stmt->bindParam("name", $name);
+
+		if ($stmt->execute()) {
+			$serverid = $stmt->fetchObject();
+
+			if ($serverid != false) {
+				echo json_encode(
+					array(
+						"status" => "OK",
+						"data" => $serverid
+					)
+				);
+			}
+			else {
+				echo json_encode(
+					array(
+						"status" => "NOT-FOUND"
+					)
+				);
+			}
+		}
+		else {
+			echo json_encode(
 				array(
-					"error" => "NOT-FOUND"
+					"status" => "QUERYFAIL"
 				)
-			));
-	};
-};
+			);
+		}
 
-$app = new \Slim\App($c);
+		$db = null;
+	}
+	catch(PDOException $e) {
+		echo json_encode(
+			array(
+				"status" => "DBFAIL",
+				"mesg" => $e->getMessage()
+			)
+		);
+	}
+});
 
-//$app->get("/servers/getid/:query", "getServerIDByName");
-$app->get("/servers", "getServers");
+$app->put("/servers/scan", function () {
+	$sql = "UPDATE tblServer SET dtEnabled = 0 WHERE dtLastCheckTS < (NOW() - INTERVAL 5 MINUTE)";
 
-$app->run();
+	try {
+		$db = getDB();
+		if ($db->query($sql)) {
+			echo json_encode(
+				array(
+					"status" => "OK"
+				)
+			);
+		}
+		else {
+			echo json_encode(
+				array(
+					"status" => "QUERYFAIL"
+				)
+			);
+		}
+	}
+	catch(PDOException $e) {
+		echo json_encode(
+			array(
+				"status" => "DBFAIL",
+				"mesg" => $e->getMessage()
+			)
+		);
+	}
+});
 
-function getServers() {
+$app->put("/servers/:id/enable", function ($id) {
+	$sql = "UPDATE tblServer SET dtEnabled = 1 WHERE idServer = :id";
+
+	try {
+		$db = getDB();
+		$stmt = $db->prepare($sql);
+		$stmt->bindParam("id", $id);
+
+		if ($stmt->execute()) {
+			echo json_encode(
+				array(
+					"status" => "OK"
+				)
+			);
+		}
+		else {
+			echo json_encode(
+				array(
+					"status" => "QUERYFAIL"
+				)
+			);
+		}
+
+		$db = null;
+	}
+	catch(PDOException $e) {
+		echo json_encode(
+			array(
+				"status" => "DBFAIL",
+				"mesg" => $e->getMessage()
+			)
+		);
+	}
+});
+
+$app->get("/servers", function () {
 	$sql = "SELECT * FROM tblServer";
 
 	try {
-		$db = getConnection();
+		$db = getDB();
 		$stmt = $db->query($sql);
 		$servers = $stmt->fetchAll(PDO::FETCH_OBJ);
 		$db = null;
-		return json_encode(
+
+		echo json_encode(
 			array(
-				"data" => $servers
+				"status" => "OK",
+				"servers" => $servers
 			)
 		);
 	}
 	catch(PDOException $e) {
-		return json_encode(
+		echo json_encode(
 			array(
-				"error" => array(
-					"type" => "dbfail",
-					"mesg" => $e->getMessage()
-				)
+				"status" => "DBFAIL",
+				"mesg" => $e->getMessage()
 			)
 		);
 	}
-}
+});
 
-function getServerIDByName($query) {
-	$sql = "SELECT idServer FROM tblServer WHERE dtHostname = :query";
-
-	print_r($query);
-
-	/*try {
-		$db = getConnection();
-		$stmt = $db->prepare($sql);
-		$stmt->bindParam("name", $name);
-		$stmt->execute();
-		$serverid = $stmt->fetchObject();
-		$db = null;
-
-		return json_encode($serverid);
-	}
-	catch(PDOException $e) {
-		return json_encode(
-			array(
-				"error" => array(
-					"type" => "dbfail",
-					"mesg" => $e->getMessage()
-				)
-			)
-		);
-	}*/
-}
-
-function getConnection() {
-	$dbhost = "127.0.0.1";
-	$dbuser = "srvmonusr";
-	$dbpass = "q1w2e3!";
-	$dbname = "srvmon";
-
-	$dbh = new PDO("mysql:host=" . $dbhost . ";dbname=" . $dbname, $dbuser, $dbpass);
-	$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-	return $dbh;
-}
+$app->run();
